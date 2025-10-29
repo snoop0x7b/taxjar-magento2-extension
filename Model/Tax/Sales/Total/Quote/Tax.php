@@ -350,18 +350,14 @@ class Tax extends \Magento\Tax\Model\Sales\Total\Quote\Tax
         }
 
         try {
-            $product = $this->productRepository->getById($item->getProductId(), false, $item->getStoreId());
+            $product = $item->getProduct();
 
             // Configurable products should use the PTC of the child (when available)
             if ($product->getTypeId() == 'configurable') {
                 $children = $item->getChildren();
 
                 if (is_array($children) && isset($children[0])) {
-                    $product = $this->productRepository->getById(
-                        $children[0]->getProductId(),
-                        false,
-                        $item->getStoreId()
-                    );
+                    $product = $children[0]->getProduct();
                 }
             }
 
